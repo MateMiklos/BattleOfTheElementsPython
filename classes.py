@@ -40,6 +40,27 @@ class Deck:
         self.__discardPile = []
         self.__destroyedPile = []
 
+        def getDrawPile(self):
+            return self.__drawPile
+
+        def getDeal(self):
+            return self.__deal
+
+        def getDealSize(self):
+            return self.__dealSize
+
+        def getOngoings(self):
+            return self.__ongoings
+
+        def getOngoingsSize(self):
+            return self.__ongoingsSize
+
+        def getDiscardPile(self):
+            return self.__discardPile
+
+        def getDestroyedPile(self):
+            return self.__destroyedPile
+
 
 # ===== PLAYER CLASS ===== #
 
@@ -74,15 +95,15 @@ class Player:
         self.__manaTotal = manaTotal
 
 
-# ===== PLAYER CLASS ===== #
+# ===== GAME CLASS ===== #
 
 
 class Game:
 
-    def __init__(self, players):
+    def __init__(self, player1, player2):
         self.__turn = 0
-        self.__player1 = players[0]
-        self.__player2 = players[1]
+        self.__player1 = player1
+        self.__player2 = player2
 
     def getTurn(self):
         return self.__turn
