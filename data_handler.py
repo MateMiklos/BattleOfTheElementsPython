@@ -6,6 +6,7 @@ def create_json_data(game_object):
                 'turn': game_object.getTurn(),
                 'player1': {
                     'name': game_object.getPlayer1().getName(),
+                    'active': game_object.getPlayer1().isActive(),
                     'lifeTotal': game_object.getPlayer1().getLifeTotal(),
                     'manaTotal': game_object.getPlayer1().getManaTotal(),
                     'deck': {
@@ -22,6 +23,7 @@ def create_json_data(game_object):
                     },
                 'player2': {
                     'name': game_object.getPlayer2().getName(),
+                    'active': game_object.getPlayer2().isActive(),
                     'lifeTotal': game_object.getPlayer2().getLifeTotal(),
                     'manaTotal': game_object.getPlayer2().getManaTotal(),
                     'deck': {

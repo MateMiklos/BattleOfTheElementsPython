@@ -16,6 +16,9 @@ def initialiseNewGame():
 
 
 def turn():
+    #beginnerPhase()
+    #mainPhase()
+    #endPhase()
     return 0
 
 

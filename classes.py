@@ -91,6 +91,7 @@ class Player:
     def __init__(self, name, deck):
         self.__name = name
         self.__deck = deck
+        self.__active = False
         self.__lifeTotal = 30
         self.__manaTotal = 30
 
@@ -100,6 +101,9 @@ class Player:
     def getName(self):
         return self.__name
 
+    def isActive(self):
+        return self.__active
+
     def getLifeTotal(self):
         return self.__lifeTotal
 
@@ -108,6 +112,9 @@ class Player:
 
     def setName(self, name):
         self.__name = name
+
+    def setActive(self, boolean):
+        self.__active = boolean
 
     def setLifeTotal(self, lifeTotal):
         self.__lifeTotal = lifeTotal
