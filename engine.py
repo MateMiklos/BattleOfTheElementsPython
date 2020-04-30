@@ -74,8 +74,23 @@ def dealBoard(deck):
             for card in drawPile:
                 deal.append(card)
                 drawPile.remove(card)
-    deck.setDrawPile(drawPile)
+    if len(deal) < deck.getDealSize():
+        for i in range(deck.getDealSize() - len(deal)):
+            deal.append(builder.buildFatigue(i + 1))
     deck.setDeal(deal)
+    if len(drawPile) == 0:
+        drawPile = reshuffle(deck)
+    deck.setDrawPile(drawPile)
+
+
+def reshuffle(deck):
+    drawPile = []
+    destroyedPile = deck.getDestroyedPile()
+    for card in destroyedPile:
+        drawPile.append(card)
+    destroyedPile = []
+    deck.setDrawPile(drawPile)
+    deck.setDestroyedPile(destroyedPile)
 
 
 def mainPhase(activePlayer, passivePlayer, game):

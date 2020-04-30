@@ -4,6 +4,15 @@ import classes
 # ===== BUILD CARDS ===== #
 
 
+def buildFatigue(damage):
+    name = 'Fatigue'
+    manacost = 0
+    elementType = 'Dark'
+    spellType = 'Condition'
+    abilityDescription = 'Deals ' + damage + 'damage to you'
+    return classes.Card(name, manacost, elementType, spellType, abilityDescription)
+
+
 def buildFireball():
     name = 'Fireball'
     manacost = 4
