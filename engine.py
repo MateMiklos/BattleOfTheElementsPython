@@ -28,8 +28,8 @@ def turn(game):
     increaseTurn(game)
     activePlayer = decleareActivePlayer(game)
     beginnerPhase(activePlayer)
-    #mainPhase()
-    #endPhase()
+    mainPhase(activePlayer, game)
+    # endPhase()
 
 
 def increaseTurn(game):
@@ -46,7 +46,7 @@ def decleareActivePlayer(game):
 
 
 def beginnerPhase(player):
-    #removeTimeCounters(palyer.getDeck())
+    # removeTimeCounters(palyer.getDeck())
     dealBoard(player.getDeck())
 
 
@@ -64,6 +64,39 @@ def dealBoard(deck):
                 drawPile.remove(card)
     deck.setDrawPile(drawPile)
     deck.setDeal(deal)
+
+
+def mainPhase(player, game):
+    playerInput = 0  # TODO: set player input
+    selectedCard = selectCardFromDeal(player.getDeck(), playerInput)
+    castSelectedCard(selectedCard, player, game)
+    discardUnselectedCards(player.getDeck())
+
+
+def selectCardFromDeal(deck, playerInput):
+    deal = deck.getDeal()
+    selectedCard = deal[playerInput + 1]
+    deal.remove(selectedCard)
+    deck.setDeal(deal)
+    return selectedCard
+
+
+def castSelectedCard(card, player, game):
+    # TODO: cast card
+    deck = player.getDeck()
+    destroyedPile = deck.getDestroyedPile()
+    destroyedPile.append(card)
+    deck.setDestroyedPile(destroyedPile)
+
+
+def discardUnselectedCards(deck):
+    deal = deck.getDeal()
+    discardPile = deck.getDiscardPile()
+    for card in deal:
+        discardPile.append(card)
+    deal = []
+    deck.setDeal(deal)
+    deck.setDiscardPile(discardPile)
 
 
 game()
