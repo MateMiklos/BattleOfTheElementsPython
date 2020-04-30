@@ -3,11 +3,14 @@ from random import randint
 import classes
 import builder
 import abilities
+import logger
+import autoplay
 
 
 def game():
     game = initialiseNewGame()
-    turn(game)
+    while game.getPlayer1().getLifeTotal() > 0 or game.getPlayer2().getLifeTotal() > 0:
+        turn(game)
     return game
 
 
@@ -83,7 +86,8 @@ def mainPhase(activePlayer, passivePlayer, game):
 
 
 def getPlayerInput():
-    return 1  # TODO: set player input
+    randomInput = autoplay.getRandomInput()
+    return randomInput  # TODO: set player input
 
 
 def selectCardFromDeal(activePlayer, playerInput):
@@ -94,7 +98,8 @@ def selectCardFromDeal(activePlayer, playerInput):
         deal.remove(selectedCard)
         deck.setDeal(deal)
         return selectedCard
-    selectCardFromDeal(activePlayer, getPlayerInput())
+    else:
+        selectCardFromDeal(activePlayer, getPlayerInput())
 
 
 def canBeSelected(card, player):
@@ -131,6 +136,7 @@ def endPhase(game):
     passivePlayer = declearePassivePlayer(game)
     activePlayer.setActive(False)
     passivePlayer.setActive(True)
+    logger.logInfo(game, activePlayer)
 
 
 game()
