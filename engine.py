@@ -2,6 +2,7 @@ from random import randint
 
 import classes
 import builder
+import abilities
 
 
 def game():
@@ -27,9 +28,10 @@ def selectStarterPlayer(game):
 def turn(game):
     increaseTurn(game)
     activePlayer = decleareActivePlayer(game)
+    passivePlayer = declearePassivePlayer(game)
     beginnerPhase(activePlayer)
-    mainPhase(activePlayer, game)
-    # endPhase()
+    mainPhase(activePlayer, passivePlayer, game)
+    endPhase(game)
 
 
 def increaseTurn(game):
@@ -42,6 +44,13 @@ def decleareActivePlayer(game):
     if game.getPlayer1().isActive():
         return game.getPlayer1()
     elif game.getPlayer2().isActive():
+        return game.getPlayer2()
+
+
+def declearePassivePlayer(game):
+    if game.getPlayer1().isActive() is False:
+        return game.getPlayer1()
+    elif game.getPlayer2().isActive() is False:
         return game.getPlayer2()
 
 
@@ -66,27 +75,45 @@ def dealBoard(deck):
     deck.setDeal(deal)
 
 
-def mainPhase(player, game):
-    playerInput = 0  # TODO: set player input
-    selectedCard = selectCardFromDeal(player.getDeck(), playerInput)
-    castSelectedCard(selectedCard, player, game)
-    discardUnselectedCards(player.getDeck())
+def mainPhase(activePlayer, passivePlayer, game):
+    playerInput = getPlayerInput()
+    selectedCard = selectCardFromDeal(activePlayer, playerInput)
+    castSelectedCard(selectedCard, activePlayer, passivePlayer, game)
+    discardUnselectedCards(activePlayer.getDeck())
 
 
-def selectCardFromDeal(deck, playerInput):
+def getPlayerInput():
+    return 1  # TODO: set player input
+
+
+def selectCardFromDeal(activePlayer, playerInput):
+    deck = activePlayer.getDeck()
     deal = deck.getDeal()
-    selectedCard = deal[playerInput + 1]
-    deal.remove(selectedCard)
-    deck.setDeal(deal)
-    return selectedCard
+    selectedCard = deal[playerInput - 1]
+    if canBeSelected(selectedCard, activePlayer):
+        deal.remove(selectedCard)
+        deck.setDeal(deal)
+        return selectedCard
+    selectCardFromDeal(activePlayer, getPlayerInput())
 
 
-def castSelectedCard(card, player, game):
-    # TODO: cast card
-    deck = player.getDeck()
+def canBeSelected(card, player):
+    if card.getManacost() <= player.getManaTotal():
+        return True
+    return False
+
+
+def castSelectedCard(card, activePlayer, passivePlayer, game):
+    castSelectedCardAbility(card, activePlayer, passivePlayer)
+    deck = activePlayer.getDeck()
     destroyedPile = deck.getDestroyedPile()
     destroyedPile.append(card)
     deck.setDestroyedPile(destroyedPile)
+
+
+def castSelectedCardAbility(card, activePlayer, passivePlayer):
+    abilityToCast = getattr(abilities, card.getName().lower())
+    abilityToCast(activePlayer, passivePlayer)
 
 
 def discardUnselectedCards(deck):
@@ -97,6 +124,13 @@ def discardUnselectedCards(deck):
     deal = []
     deck.setDeal(deal)
     deck.setDiscardPile(discardPile)
+
+
+def endPhase(game):
+    activePlayer = decleareActivePlayer(game)
+    passivePlayer = declearePassivePlayer(game)
+    activePlayer.setActive(False)
+    passivePlayer.setActive(True)
 
 
 game()
