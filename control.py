@@ -7,7 +7,7 @@ import data_handler
 app = Flask(__name__)
 api = Api(app)
 
-game = engine.initialiseNewGame()
+game = engine.game()
 data = data_handler.create_json_data(game)
 
 

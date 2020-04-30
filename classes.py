@@ -141,3 +141,6 @@ class Game:
 
     def getPlayer2(self):
         return self.__player2
+
+    def setTurn(self, turn):
+        self.__turn = turn
