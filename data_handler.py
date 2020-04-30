@@ -1,34 +1,39 @@
 import engine
 
 
-def create_json_data():
-    game = engine.initialiseNewGame()
+def create_json_data(game_object):
     data = {'game': {
-                'turn': game.turn,
+                'turn': game_object.getTurn(),
                 'player1': {
-                    'name': game.player1.getName(),
-                    'lifeTotal': game.player1.getLifeTotal(),
-                    'manaTotal': game.player1.getManaTotal(),
+                    'name': game_object.getPlayer1().getName(),
+                    'lifeTotal': game_object.getPlayer1().getLifeTotal(),
+                    'manaTotal': game_object.getPlayer1().getManaTotal(),
                     'deck': {
-                        'cards': fill_cards_with_converted_cards(game.player1.getDeck().cards),
-                        'board': fill_cards_with_converted_cards(game.player1.getDeck().board),
-                        'ongoings': fill_cards_with_converted_cards(game.player1.getDeck().ongoings),
-                        'discardPile': fill_cards_with_converted_cards(game.player1.getDeck().discardPile),
-                        'boardSize': game.player1.getDeck().boardSize,
-                        'ongoingsSize': game.player1.getDeck().ongoingsSize
+                        'drawPile': fill_cards_with_converted_cards(game_object.getPlayer1().getDeck().getDrawPile()),
+                        'deal': fill_cards_with_converted_cards(game_object.getPlayer1().getDeck().getDeal()),
+                        'ongoings': fill_cards_with_converted_cards(game_object.getPlayer1().getDeck().getOngoings()),
+                        'discardPile':
+                            fill_cards_with_converted_cards(game_object.getPlayer1().getDeck().getDiscardPile()),
+                        'destroyedPile':
+                            fill_cards_with_converted_cards(game_object.getPlayer1().getDeck().getDestroyedPile()),
+                        'dealSize': game_object.getPlayer1().getDeck().getDealSize(),
+                        'ongoingsSize': game_object.getPlayer1().getDeck().getOngoingsSize()
                         }
                     },
                 'player2': {
-                    'name': game.player2.getName(),
-                    'lifeTotal': game.player2.getLifeTotal(),
-                    'manaTotal': game.player2.getManaTotal(),
+                    'name': game_object.getPlayer2().getName(),
+                    'lifeTotal': game_object.getPlayer2().getLifeTotal(),
+                    'manaTotal': game_object.getPlayer2().getManaTotal(),
                     'deck': {
-                        'cards': fill_cards_with_converted_cards(game.player2.getDeck().cards),
-                        'board': fill_cards_with_converted_cards(game.player2.getDeck().board),
-                        'ongoings': fill_cards_with_converted_cards(game.player2.getDeck().ongoings),
-                        'discardPile': fill_cards_with_converted_cards(game.player2.getDeck().discardPile),
-                        'boardSize': game.player1.getDeck().boardSize,
-                        'ongoingsSize': game.player1.getDeck().ongoingsSize
+                        'drawPile': fill_cards_with_converted_cards(game_object.getPlayer2().getDeck().getDrawPile()),
+                        'deal': fill_cards_with_converted_cards(game_object.getPlayer2().getDeck().getDeal()),
+                        'ongoings': fill_cards_with_converted_cards(game_object.getPlayer2().getDeck().getOngoings()),
+                        'discardPile':
+                            fill_cards_with_converted_cards(game_object.getPlayer2().getDeck().getDiscardPile()),
+                        'destroyedPile':
+                            fill_cards_with_converted_cards(game_object.getPlayer2().getDeck().getDestroyedPile()),
+                        'dealSize': game_object.getPlayer2().getDeck().getDealSize(),
+                        'ongoingsSize': game_object.getPlayer2().getDeck().getOngoingsSize()
                         }
                     }
                 }

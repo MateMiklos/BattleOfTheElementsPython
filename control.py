@@ -7,7 +7,8 @@ import data_handler
 app = Flask(__name__)
 api = Api(app)
 
-data = data_handler.create_json_data()
+game = engine.initialiseNewGame()
+data = data_handler.create_json_data(game)
 
 
 def get_data_container():
@@ -34,8 +35,8 @@ class DataGetter(Resource):
 
 
 # Adding the routes
-api.add_resource(DataRequests, '/data/<string:data_id>')
-api.add_resource(DataGetter, '/data')
+api.add_resource(DataRequests, '/game/<string:data_id>')
+api.add_resource(DataGetter, '/game')
 
 
 if __name__ == '__main__':

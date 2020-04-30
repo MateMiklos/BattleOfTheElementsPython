@@ -40,47 +40,47 @@ class Deck:
         self.__discardPile = []
         self.__destroyedPile = []
 
-        def getDrawPile(self):
-            return self.__drawPile
+    def getDrawPile(self):
+        return self.__drawPile
 
-        def getDeal(self):
-            return self.__deal
+    def getDeal(self):
+        return self.__deal
 
-        def getDealSize(self):
-            return self.__dealSize
+    def getDealSize(self):
+        return self.__dealSize
 
-        def getOngoings(self):
-            return self.__ongoings
+    def getOngoings(self):
+        return self.__ongoings
 
-        def getOngoingsSize(self):
-            return self.__ongoingsSize
+    def getOngoingsSize(self):
+        return self.__ongoingsSize
 
-        def getDiscardPile(self):
-            return self.__discardPile
+    def getDiscardPile(self):
+        return self.__discardPile
 
-        def getDestroyedPile(self):
-            return self.__destroyedPile
+    def getDestroyedPile(self):
+        return self.__destroyedPile
 
-        def setDrawPile(self, drawPile):
-            self.__drawPile = drawPile
+    def setDrawPile(self, drawPile):
+        self.__drawPile = drawPile
 
-        def setDeal(self, deal):
-            self.__deal = deal
+    def setDeal(self, deal):
+        self.__deal = deal
 
-        def setDealSize(self, dealSize):
-            self.__dealSize = dealSize
+    def setDealSize(self, dealSize):
+        self.__dealSize = dealSize
 
-        def setOngoings(self, ongoings):
-            self.__ongoings = ongoings
+    def setOngoings(self, ongoings):
+        self.__ongoings = ongoings
 
-        def setOngoingsSize(self, ongoingsSize):
-            self.__ongoingsSize = ongoingsSize
+    def setOngoingsSize(self, ongoingsSize):
+        self.__ongoingsSize = ongoingsSize
 
-        def setDiscardPile(self, discardPile):
-            self.__discardPile = discardPile
+    def setDiscardPile(self, discardPile):
+        self.__discardPile = discardPile
 
-        def setDestroyedPile(self, destroyedPile):
-            self.__destroyedPile = destroyedPile
+    def setDestroyedPile(self, destroyedPile):
+        self.__destroyedPile = destroyedPile
 
 
 # ===== PLAYER CLASS ===== #
