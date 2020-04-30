@@ -61,6 +61,27 @@ class Deck:
         def getDestroyedPile(self):
             return self.__destroyedPile
 
+        def setDrawPile(self, drawPile):
+            self.__drawPile = drawPile
+
+        def setDeal(self, deal):
+            self.__deal = deal
+
+        def setDealSize(self, dealSize):
+            self.__dealSize = dealSize
+
+        def setOngoings(self, ongoings):
+            self.__ongoings = ongoings
+
+        def setOngoingsSize(self, ongoingsSize):
+            self.__ongoingsSize = ongoingsSize
+
+        def setDiscardPile(self, discardPile):
+            self.__discardPile = discardPile
+
+        def setDestroyedPile(self, destroyedPile):
+            self.__destroyedPile = destroyedPile
+
 
 # ===== PLAYER CLASS ===== #
 
