@@ -31,8 +31,8 @@ class Card:
 
 class Deck:
 
-    def __init__(self):
-        self.__drawPile = []
+    def __init__(self, deck):
+        self.__drawPile = deck
         self.__deal = []
         self.__dealSize = 4
         self.__ongoings = []

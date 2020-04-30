@@ -1,17 +1,20 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
 
+import engine
+import data_handler
+
 app = Flask(__name__)
 api = Api(app)
 
-data = {}
+data = data_handler.create_json_data()
 
 
-def get_todo_container():
+def get_data_container():
     return data
 
 
-def set_todo_container(data):
+def set_data_container(data):
     data = data
     return data
 
