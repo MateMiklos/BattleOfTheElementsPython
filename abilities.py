@@ -1,3 +1,8 @@
+def manapotion(caster, target):
+    totalMana = caster.getManaTotal() + 1
+    caster.setManaTotal(totalMana)
+
+
 def fireball(caster, target):
     totalMana = caster.getManaTotal() - 4
     caster.setManaTotal(totalMana)
@@ -24,3 +29,5 @@ def immobilize(caster, target):
     caster.setManaTotal(totalMana)
     manaTotal = target.getManaTotal() - 4
     target.setManaTotal(manaTotal)
+    if target.getManaTotal() < 0:
+        target.setManaTotal(0)

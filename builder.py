@@ -9,8 +9,17 @@ def buildFatigue(damage):
     manacost = 0
     elementType = 'Dark'
     spellType = 'Condition'
-    abilityDescription = 'Deals ' + damage + 'damage to you'
+    abilityDescription = 'Deals ' + str(damage) + 'damage to you'
     return classes.Card(name, manacost, elementType, spellType, abilityDescription)
+
+
+def buildManaPotion():
+    name = 'Manapotion'
+    manacost = 0
+    elemenType = 'Artifact'
+    spellType = 'Potion'
+    abilityDescription = 'You gain 3 mana'
+    return classes.Card(name, manacost, elemenType, spellType, abilityDescription)
 
 
 def buildFireball():

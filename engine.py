@@ -9,7 +9,7 @@ import autoplay
 
 def game():
     game = initialiseNewGame()
-    while game.getPlayer1().getLifeTotal() > 0 or game.getPlayer2().getLifeTotal() > 0:
+    while game.getPlayer1().getLifeTotal() > 0 and game.getPlayer2().getLifeTotal() > 0:
         turn(game)
     return game
 
@@ -59,7 +59,13 @@ def declearePassivePlayer(game):
 
 def beginnerPhase(player):
     # removeTimeCounters(palyer.getDeck())
+    setManaToZero(player)
     dealBoard(player.getDeck())
+
+
+def setManaToZero(player):
+    if player.getManaTotal() < 0:
+        player.setManaTotal(0)
 
 
 def dealBoard(deck):
@@ -74,29 +80,33 @@ def dealBoard(deck):
             for card in drawPile:
                 deal.append(card)
                 drawPile.remove(card)
+        except TypeError:
+            drawPile = []
     if len(deal) < deck.getDealSize():
         for i in range(deck.getDealSize() - len(deal)):
             deal.append(builder.buildFatigue(i + 1))
     deck.setDeal(deal)
-    if len(drawPile) == 0:
-        drawPile = reshuffle(deck)
     deck.setDrawPile(drawPile)
+    if len(drawPile) == 0:
+        reshuffle(deck)
 
 
 def reshuffle(deck):
-    drawPile = []
-    destroyedPile = deck.getDestroyedPile()
-    for card in destroyedPile:
+    drawPile = deck.getDrawPile()
+    discardPile = deck.getDiscardPile()
+    for card in discardPile:
         drawPile.append(card)
-    destroyedPile = []
+    discardPile = []
     deck.setDrawPile(drawPile)
-    deck.setDestroyedPile(destroyedPile)
+    deck.setDiscardPile(discardPile)
 
 
 def mainPhase(activePlayer, passivePlayer, game):
+    cantBeSelectedCards = []
     playerInput = getPlayerInput()
-    selectedCard = selectCardFromDeal(activePlayer, playerInput)
+    selectedCard = selectCardFromDeal(activePlayer, playerInput, cantBeSelectedCards)
     castSelectedCard(selectedCard, activePlayer, passivePlayer, game)
+    sufferFatigueDamage(activePlayer)
     discardUnselectedCards(activePlayer.getDeck())
 
 
@@ -105,7 +115,7 @@ def getPlayerInput():
     return randomInput  # TODO: set player input
 
 
-def selectCardFromDeal(activePlayer, playerInput):
+def selectCardFromDeal(activePlayer, playerInput, cantBeSelectedCards):
     deck = activePlayer.getDeck()
     deal = deck.getDeal()
     selectedCard = deal[playerInput - 1]
@@ -114,10 +124,17 @@ def selectCardFromDeal(activePlayer, playerInput):
         deck.setDeal(deal)
         return selectedCard
     else:
-        selectCardFromDeal(activePlayer, getPlayerInput())
+        if selectedCard not in cantBeSelectedCards:
+            cantBeSelectedCards.append(selectedCard)
+        if len(cantBeSelectedCards) == activePlayer.getDeck().getDealSize():
+            return builder.buildManaPotion()
+        playerInput = getPlayerInput()
+        return selectCardFromDeal(activePlayer, playerInput, cantBeSelectedCards)
 
 
 def canBeSelected(card, player):
+    if card.getName() == 'Fatigue':
+        return False
     if card.getManacost() <= player.getManaTotal():
         return True
     return False
@@ -136,11 +153,29 @@ def castSelectedCardAbility(card, activePlayer, passivePlayer):
     abilityToCast(activePlayer, passivePlayer)
 
 
+def sufferFatigueDamage(activePlayer):
+    damage = countFatigueDamage(activePlayer.getDeck().getDeal())
+    lifeTotal = activePlayer.getLifeTotal() - damage
+    activePlayer.setLifeTotal(lifeTotal)
+
+
+def countFatigueDamage(deal):
+    damageSum = 0
+    fatigueDamage = 1
+    for card in deal:
+        if card.getName() == 'Fatigue':
+            damageSum += fatigueDamage
+            fatigueDamage += 1
+    return damageSum
+
+
 def discardUnselectedCards(deck):
     deal = deck.getDeal()
     discardPile = deck.getDiscardPile()
     for card in deal:
-        discardPile.append(card)
+        if card.getName() != 'Fatigue':
+            discardPile.append(card)
+            print(card.getName())
     deal = []
     deck.setDeal(deal)
     deck.setDiscardPile(discardPile)
