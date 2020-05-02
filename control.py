@@ -34,6 +34,33 @@ class DataGetter(Resource):
         return data
 
 
+"""
+
+route autoplay():   Kérdés,  hogy ez mennyire van összhangban a többi játékkal? Lehet-e több játékot egyszerre játszani
+    init()
+    play()
+    return result
+
+
+
+route init():  --> ezt hányszor lehessen meghívni?
+    if no init yet:
+        init()
+        return(first_round, 200)
+    else:
+        return(message, 405)                // 405: Method Not Allowed
+
+
+route manualplay():
+    if no init yet:  <-- true/false tárolódik valahol
+        return (message, 405)  || init()
+
+    play_round()
+
+    return (result,200)
+
+"""
+
 # Adding the routes
 api.add_resource(DataRequests, '/game/<string:data_id>')
 api.add_resource(DataGetter, '/game')

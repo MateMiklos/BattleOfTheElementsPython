@@ -1,5 +1,4 @@
-from random import randint
-
+import random
 import classes
 import builder
 import abilities
@@ -11,7 +10,34 @@ def game():
     game = initialiseNewGame()
     while game.getPlayer1().getLifeTotal() > 0 and game.getPlayer2().getLifeTotal() > 0:
         turn(game)
-    return game
+    return game  # return game status. Game status objectben lenne egy változó(?),
+    # ami jelöli, hogy vége van-e a game-nek.
+
+
+"""
+def game():
+    game = gameObjectHandler.getGame()
+    gameObjectHandler.updateLife()
+
+
+    if game.getPlayer1().getLifeTotal() > 0 and game.getPlayer2().getLifeTotal() > 0:
+        turn(game)
+    else:
+        endOfTheGame()
+    return status  # lehetne true/false, vagy object
+
+
+def game():
+    init()
+    start()
+
+def start():
+    step1()
+    step2()
+
+def step1():
+
+"""
 
 
 def initialiseNewGame():
@@ -19,13 +45,21 @@ def initialiseNewGame():
     player2 = classes.Player('Matt', classes.Deck(builder.buildBasicDeck()))
     game = classes.Game(player1, player2)
     selectStarterPlayer(game)
+    shuffleDrawPile(player1.getDeck())
+    shuffleDrawPile(player2.getDeck())
     return game
 
 
 def selectStarterPlayer(game):
     players = [game.getPlayer1(), game.getPlayer2()]
-    starterPlayer = players[randint(0, 1)]
+    starterPlayer = players[random.randint(0, 1)]
     starterPlayer.setActive(True)
+
+
+def shuffleDrawPile(deck):
+    drawPile = deck.getDrawPile()
+    random.shuffle(drawPile)
+    deck.setDrawPile(drawPile)
 
 
 def turn(game):
@@ -33,8 +67,13 @@ def turn(game):
     activePlayer = decleareActivePlayer(game)
     passivePlayer = declearePassivePlayer(game)
     beginnerPhase(activePlayer)
+    # input = getPlayerInput()
+    # ha az input üres, mert nincs még megadva, akkor álljon le
+    # mainPhase csak akkor hívódhat meg, ha van input
     mainPhase(activePlayer, passivePlayer, game)
     endPhase(game)
+
+    # updateStatus(game)
 
 
 def increaseTurn(game):
@@ -71,6 +110,15 @@ def setManaToZero(player):
 def dealBoard(deck):
     drawPile = deck.getDrawPile()
     deal = []
+    if len(drawPile) >= deck.getDealSize():
+        for i in range(deck.getDealSize()):
+            deal.append(drawPile[0])
+            drawPile.remove(drawPile[0])
+    else:
+        for card in drawPile:
+            deal.append(card)
+            drawPile.remove(card)
+    """
     for i in range(deck.getDealSize()):
         try:
             randIndex = randint(0, len(deck.getDrawPile()) - 1)
@@ -82,6 +130,7 @@ def dealBoard(deck):
                 drawPile.remove(card)
         except TypeError:
             drawPile = []
+    """
     if len(deal) < deck.getDealSize():
         for i in range(deck.getDealSize() - len(deal)):
             deal.append(builder.buildFatigue(i + 1))
@@ -99,18 +148,32 @@ def reshuffle(deck):
     discardPile = []
     deck.setDrawPile(drawPile)
     deck.setDiscardPile(discardPile)
+    shuffleDrawPile(deck)
 
 
 def mainPhase(activePlayer, passivePlayer, game):
     cantBeSelectedCards = []
     playerInput = getPlayerInput()
+
+    """
+    playerInput = gameObjectHandler.getPlayerInput()
+    if(!playerInput):
+        return gameStatus
+
+
+    Ha nincs player input   --> akkor álljon le az egész játék, és adjuk meg a választási lehetőségeket
+
+    Ha van player input     --> akkor az input alapján fusson tovább a program
+    """
     selectedCard = selectCardFromDeal(activePlayer, playerInput, cantBeSelectedCards)
     castSelectedCard(selectedCard, activePlayer, passivePlayer, game)
     sufferFatigueDamage(activePlayer)
     discardUnselectedCards(activePlayer.getDeck())
+    # return gameStatus
 
 
 def getPlayerInput():
+    playerInput = {}
     randomInput = autoplay.getRandomInput()
     return randomInput  # TODO: set player input
 
@@ -175,7 +238,6 @@ def discardUnselectedCards(deck):
     for card in deal:
         if card.getName() != 'Fatigue':
             discardPile.append(card)
-            print(card.getName())
     deal = []
     deck.setDeal(deal)
     deck.setDiscardPile(discardPile)
